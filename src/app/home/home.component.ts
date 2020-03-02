@@ -3,12 +3,11 @@ import { finalize } from 'rxjs/operators';
 
 import { QuoteService } from './quote.service';
 import { TorahService } from './torah.service';
-import { environment } from '@env/environment';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { env } from '@env/.env';
+
 import { BehaviorSubject } from 'rxjs';
-import { debug } from 'util';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +16,7 @@ import { debug } from 'util';
 })
 export class HomeComponent implements OnInit {
   quote: string | undefined;
-  perek: BehaviorSubject<any> = new BehaviorSubject({});
+  perek: BehaviorSubject<any> = this.torahService.selectedPerek;
   isLoading = false;
   isSuccess = false;
   items: any;
@@ -31,9 +30,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = true;
-    this.torahService.selectedPerek.subscribe(res => {
+    this.perek.subscribe(res => {
       debugger;
-      this.perek.next(res);
       this.isLoading = false;
     });
   }

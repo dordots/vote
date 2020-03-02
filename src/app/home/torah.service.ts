@@ -27,7 +27,6 @@ export class TorahService {
 
   initialize() {
     let readsHashRef = this.db.database.ref('items/readsHash');
-    // let self = this;
     readsHashRef.on('value', snapshot => {
       this.prakimArray.next(snapshot.val());
       let randomSefer = this.prakimArray.value[Math.floor(Math.random() * this.prakimArray.value.length)];
@@ -36,7 +35,16 @@ export class TorahService {
       this.getPerekInfo(randomSefer, randomPerek);
     });
   }
+  getPrakim() {
+    let readsHashRef = this.db.database.ref('items/readsHash');
+    readsHashRef.on('value', snapshot => {
+      this.prakimArray.next(snapshot.val());
+      let randomSefer = this.prakimArray.value[Math.floor(Math.random() * this.prakimArray.value.length)];
+      let randomPerek = Math.floor(Math.random() * randomSefer.numOfPrakim) + 1;
 
+      this.getPerekInfo(randomSefer, randomPerek);
+    });
+  }
   getRandomPerek() {
     let randomSefer = this.prakimArray.value[Math.floor(Math.random() * this.prakimArray.value.length)];
     let randomPerek = Math.floor(Math.random() * randomSefer.numOfPrakim) + 1;
@@ -44,13 +52,9 @@ export class TorahService {
   }
 
   getPerekInfo(randomSefer: any, randomPerek: any) {
-    this.httpClient
-      .cache()
-      .get(routes.sefaria + randomSefer.seferEnName + '.' + randomPerek)
-      .pipe(
-        map((body: any) => this.selectedPerek.next(body)),
-        catchError(() => of('Error, could not load joke :-('))
-      );
+    this.httpClient.get(routes.sefaria + randomSefer.seferEnName + '.' + randomPerek).subscribe(res => {
+      this.selectedPerek.next(res);
+    });
   }
 
   perekHaveReaded(perek: any) {
