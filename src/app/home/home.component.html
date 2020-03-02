@@ -1,15 +1,41 @@
 <div class="container-fluid">
   <div class="jumbotron text-center">
-    <h1>
+    <div [hidden]="isLoading" class="alert alert-primary" role="alert" style="direction:rtl">
+      הושלמו כבר 1 ספרים, מספר הפרקים שנקראו עד כה: {{ numOfPrakim + 102 }}, נשארו עוד
+      {{ 187 - (numOfPrakim + 102) }}
+      פרקים לסיום חמישה חומשי תורה נוספים !
+    </div>
+    <h1 style="direction:rtl">
       <!-- <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo" /> -->
-      <!-- <span translate>Torah yachad !</span> -->
-      <span style="direction:rtl">{{ perek?.heSectionRef }}</span>
+      <!-- <span translate>בוחרים בתורה!</span> -->
+      <span style="direction:rtl">{{ thePerek?.heSectionRef }}</span>
     </h1>
     <app-loader [isLoading]="isLoading"></app-loader>
-    <div style="direction:rtl;">
-      <q [hidden]="isLoading">{{ perek?.he }}</q>
+    <div [hidden]="isLoading" style="direction:rtl;margin-bottom: 10px;margin-top:10px; text-align: justify;">
+      {{ thePerek?.he }}
     </div>
-    <button (click)="iHaveDoneReading()">סיימתי לקרוא</button>
-    <button (click)="anotherPerek()">חפש לי פרק אחר</button>
+    <button (click)="iHaveDoneReading()" type="button" class="btn btn-success">סיימתי לקרוא</button>
+    <button style="margin-left: 5px;" (click)="anotherPerek()" type="button" class="btn btn-info">
+      חפש לי פרק אחר
+    </button>
+
+    <!-- Small modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">
+      Small modal
+    </button>
+
+    <div
+      class="modal fade bd-example-modal-sm"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="mySmallModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          ...
+        </div>
+      </div>
+    </div>
   </div>
 </div>

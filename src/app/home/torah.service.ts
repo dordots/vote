@@ -21,26 +21,47 @@ export class TorahService {
   sfarimHash = environment.readsHash;
   prakimArray: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   selectedPerek: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  randomSeferNum: number;
+  randomPerek: number;
+
   constructor(private httpClient: HttpClient, private db: AngularFireDatabase) {
     this.initialize();
   }
 
   initialize() {
     let readsHashRef = this.db.database.ref('items/readsHash');
-    // let self = this;
     readsHashRef.on('value', snapshot => {
       this.prakimArray.next(snapshot.val());
-      let randomSefer = this.prakimArray.value[Math.floor(Math.random() * this.prakimArray.value.length)];
-      let randomPerek = Math.floor(Math.random() * randomSefer.numOfPrakim) + 1;
-
-      this.getPerekInfo(randomSefer, randomPerek);
+      // let randomSefer = this.prakimArray.value[Math.floor(Math.random() * this.prakimArray.value.length)];
+      // let randomPerek = Math.floor(Math.random() * randomSefer.numOfPrakim) + 1;
+      // this.getPerekInfo(randomSefer, randomPerek);
     });
   }
 
   getRandomPerek() {
-    let randomSefer = this.prakimArray.value[Math.floor(Math.random() * this.prakimArray.value.length)];
-    let randomPerek = Math.floor(Math.random() * randomSefer.numOfPrakim) + 1;
-    this.getPerekInfo(randomSefer, randomPerek);
+    this.randomSeferNum = Math.floor(Math.random() * this.prakimArray.value.length);
+    let randomSefer = this.prakimArray.value[this.randomSeferNum];
+    this.randomPerek = Math.floor(Math.random() * randomSefer.numOfPrakim) + 1;
+    if (this.prakimArray.value[this.randomSeferNum].readedPrakim[this.randomPerek - 1] == false) {
+      return this.httpClient
+        .cache()
+        .get(routes.sefaria + randomSefer.seferEnName + '.' + this.randomPerek)
+        .pipe(
+          map(body => body),
+          catchError(() => of('Error, could not load joke :-('))
+        );
+    } else {
+      this.getRandomPerek();
+    }
+  }
+
+  getNumOfPrakimReaded() {
+    let numberOfReadedPrakim = 0;
+    this.prakimArray.value.forEach((allBooks: any) => {
+      numberOfReadedPrakim += allBooks.readedPrakim.filter((perek: any) => perek == true).length;
+    });
+
+    return numberOfReadedPrakim;
   }
 
   getPerekInfo(randomSefer: any, randomPerek: any) {
@@ -54,6 +75,14 @@ export class TorahService {
   }
 
   perekHaveReaded(perek: any) {
-    debugger;
+    this.db.database
+      .ref('items/readsHash/' + this.randomSeferNum + '/readedPrakim/' + (this.randomPerek - 1))
+      .set(true, function(error) {
+        if (error) {
+          return 'bad';
+        } else {
+          return 'good';
+        }
+      });
   }
 }

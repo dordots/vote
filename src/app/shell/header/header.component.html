@@ -1,6 +1,6 @@
 <header style="direction:rtl">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="https://github.com/ngx-rocket" translate>APP_NAME</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" translate>APP_NAME</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -11,14 +11,29 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div id="navbar-menu" class="collapse navbar-collapse float-xs-none" [ngbCollapse]="menuHidden">
-      <div class="navbar-nav" style="float: right;">
-        <a class="nav-item nav-link text-uppercase" routerLink="/home" routerLinkActive="active">
-          <i style="padding-right:5px;" class="fas fa-home"></i>
+    <div
+      style="float:right;"
+      id="navbar-menu"
+      class="collapse navbar-collapse float-xs-none"
+      [ngbCollapse]="menuHidden"
+    >
+      <div class="navbar-nav">
+        <a
+          class="nav-item nav-link text-uppercase"
+          style="text-align: right;"
+          routerLink="/home"
+          routerLinkActive="active"
+        >
+          <i class="fas fa-home" style="margin-left: 10px;"></i>
           <span translate>Home</span>
         </a>
-        <a class="nav-item nav-link text-uppercase" routerLink="/about" routerLinkActive="active">
-          <i style="padding-right:5px;" class="fas fa-question-circle"></i>
+        <a
+          class="nav-item nav-link text-uppercase"
+          style="text-align: right;"
+          routerLink="/about"
+          routerLinkActive="active"
+        >
+          <i class="fas fa-question-circle" style="margin-left: 10px;"></i>
           <span translate>About</span>
         </a>
       </div>
