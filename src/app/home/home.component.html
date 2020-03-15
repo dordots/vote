@@ -1,6 +1,22 @@
 <div class="container-fluid">
   <div class="jumbotron text-center">
-    <div [hidden]="isLoading" class="alert alert-primary" role="alert" style="direction:rtl">
+    <div
+      [hidden]="isLoading"
+      class="alert alert-primary"
+      role="alert"
+      style="direction:rtl; background-color: antiquewhite;
+    -webkit-user-modify: read-write-plaintext-only;"
+    >
+      <span style="font-weight: bold;">"בזכות התורה ולומדיה יינצל העולם"</span>
+      בשעה זו העולם כולו זקוק לנו!! קחו כמה דקות, למדו פרק בתורה והתאחדו עם כל הלומדים לסיום חמישה חומשים לשמירה על עמ"י
+      ,העולם ולהבאת הגאולה! אנא העבירו הלאה וזכו את הרבים!
+    </div>
+    <div
+      [hidden]="isLoading"
+      class="alert alert-primary"
+      role="alert"
+      style="direction:rtl; background-color: aliceblue"
+    >
       הושלמו כבר 1 ספרים, מספר הפרקים שנקראו עד כה: {{ numOfPrakim + 102 }}, נשארו עוד
       {{ 187 - (numOfPrakim + 102) }}
       פרקים לסיום חמישה חומשי תורה נוספים !
@@ -20,9 +36,9 @@
     </button>
 
     <!-- Small modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">
       Small modal
-    </button>
+    </button> -->
 
     <div
       class="modal fade bd-example-modal-sm"
