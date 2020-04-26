@@ -31,14 +31,13 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     this.perek.subscribe(res => {
-      debugger;
       this.isLoading = false;
     });
   }
 
   anotherPerek() {
     this.isLoading = true;
-    this.torahService.getRandomPerek();
+    this.torahService.getAnotherPerek();
     this.perek.subscribe(res => {
       this.isLoading = false;
     });
